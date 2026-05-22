@@ -57,7 +57,7 @@ const COURSES = [
 ];
 
 const state = {
-  activeTab: 1, // 1, 2, or 3
+  activeTab: "home", // "home", 1, 2, 3, or "final"
   level3Elective: "IT5506",
   grades: {},
   theme: "dark",
@@ -94,9 +94,13 @@ function loadState() {
   }
   if (savedElective) state.level3Elective = savedElective;
   if (savedActiveTab) {
-    state.activeTab = parseInt(savedActiveTab, 10) || 1;
+    if (savedActiveTab === "home" || savedActiveTab === "final") {
+      state.activeTab = savedActiveTab;
+    } else {
+      state.activeTab = parseInt(savedActiveTab, 10) || 1;
+    }
   } else {
-    state.activeTab = 1;
+    state.activeTab = "home";
   }
   if (savedTheme) {
     state.theme = savedTheme;
@@ -142,7 +146,7 @@ document.querySelectorAll("input[name='level3Elective']").forEach((input) => {
 document.querySelector("#resetBtn").addEventListener("click", () => {
   if (confirm("Are you sure you want to clear all entered grades and reset preferences?")) {
     state.grades = {};
-    state.activeTab = 1;
+    state.activeTab = "home";
     state.level3Elective = "IT5506";
     const radio = document.querySelector("input[name='level3Elective'][value='IT5506']");
     if (radio) radio.checked = true;
@@ -193,7 +197,27 @@ document.querySelectorAll(".fill-btn").forEach((button) => {
 // Tab switching button bindings
 levelTabs.querySelectorAll(".tab-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
-    state.activeTab = parseInt(btn.dataset.level, 10) || 1;
+    const lvl = btn.dataset.level;
+    if (lvl === "home" || lvl === "final") {
+      state.activeTab = lvl;
+    } else {
+      state.activeTab = parseInt(lvl, 10) || 1;
+    }
+    updateTabUI();
+    saveState();
+    render();
+  });
+});
+
+// Welcome screen button bindings
+document.querySelectorAll("#welcomeScreen button[data-btn-level]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const lvl = btn.dataset.btnLevel;
+    if (lvl === "home" || lvl === "final") {
+      state.activeTab = lvl;
+    } else {
+      state.activeTab = parseInt(lvl, 10) || 1;
+    }
     updateTabUI();
     saveState();
     render();
@@ -202,7 +226,7 @@ levelTabs.querySelectorAll(".tab-btn").forEach((btn) => {
 
 function updateTabUI() {
   levelTabs.querySelectorAll(".tab-btn").forEach((btn) => {
-    if (parseInt(btn.dataset.level, 10) === state.activeTab) {
+    if (btn.dataset.level === String(state.activeTab)) {
       btn.classList.add("active");
     } else {
       btn.classList.remove("active");
@@ -437,7 +461,14 @@ function renderAwards(levels, cumulativeGpa) {
 function updateAwardUI(element, status, textMap) {
   element.className = `award-status-box ${status}`;
   const statusBadge = element.querySelector(".award-badge");
-  statusBadge.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+  let statusText = status.charAt(0).toUpperCase() + status.slice(1);
+  if (status === "eligible") {
+    statusBadge.textContent = "✅ " + statusText;
+  } else if (status === "ineligible") {
+    statusBadge.textContent = "❌ Locked";
+  } else {
+    statusBadge.textContent = "⏳ " + statusText;
+  }
   element.querySelector(".award-desc").textContent = textMap[status];
 }
 
@@ -512,7 +543,7 @@ function renderCourseCard(course) {
   card.innerHTML = `
     <div class="course-card-header">
       <div class="course-info">
-        <span class="course-code">${course.code}</span>
+        <span class="course-code">${course.code}<span class="grade-indicator-dot"></span></span>
         <h3 class="course-name">${course.name}</h3>
         <span class="course-meta">Sem ${course.semester} · ${course.credits} Credits total</span>
       </div>
@@ -532,6 +563,31 @@ function renderCourseCard(course) {
   const cardBody = card.querySelector(".course-card-body");
   const effectiveVal = card.querySelector(".gpv-value");
 
+  const updateGradeIndicator = () => {
+    const dot = card.querySelector(".grade-indicator-dot");
+    if (!dot) return;
+    if (course.enhancement) {
+      if (grades.passed) {
+        dot.className = "grade-indicator-dot grade-pass";
+      } else {
+        dot.className = "grade-indicator-dot";
+      }
+    } else {
+      const gpv = effectiveGradePoint(course);
+      if (gpv === null) {
+        dot.className = "grade-indicator-dot";
+      } else if (gpv >= 3.7) {
+        dot.className = "grade-indicator-dot grade-excellent";
+      } else if (gpv >= 3.0) {
+        dot.className = "grade-indicator-dot grade-good";
+      } else if (gpv >= 2.0) {
+        dot.className = "grade-indicator-dot grade-average";
+      } else {
+        dot.className = "grade-indicator-dot grade-poor";
+      }
+    }
+  };
+
   if (course.enhancement) {
     const passLabel = document.createElement("label");
     passLabel.className = "enhancement-pass-label";
@@ -545,6 +601,7 @@ function renderCourseCard(course) {
     cardBody.appendChild(passLabel);
     effectiveVal.textContent = grades.passed ? "PASS" : "--";
     effectiveVal.className = grades.passed ? "gpv-value pass" : "gpv-value";
+    updateGradeIndicator();
     return card;
   }
 
@@ -582,6 +639,7 @@ function renderCourseCard(course) {
 
   const gpv = effectiveGradePoint(course);
   effectiveVal.textContent = gpv === null ? "--" : gpv.toFixed(2);
+  updateGradeIndicator();
   
   return card;
 }
@@ -633,9 +691,94 @@ function render() {
   
   const cumulative = allCredits > 0 ? allPoints / allCredits : null;
 
+  // Update page attributes
+  const page = state.activeTab === "home" ? "home" : "dashboard";
+  document.body.setAttribute("data-page", page);
+  document.body.setAttribute("data-active-tab", state.activeTab);
+
   updateGauge(cumulative, allCredits);
   renderAwards(levels, cumulative);
-  renderLevelWorkspace();
+  
+  if (state.activeTab === 1 || state.activeTab === 2 || state.activeTab === 3) {
+    renderLevelWorkspace();
+  } else if (state.activeTab === "final") {
+    renderYearSummaries(levels);
+  }
+}
+
+function renderYearSummaries(levels) {
+  const container = document.querySelector("#yearSummaryGrid");
+  if (!container) return;
+  container.innerHTML = "";
+
+  levels.forEach((lvlSummary) => {
+    const card = document.createElement("div");
+    card.className = "year-summary-card";
+
+    let title = "";
+    let subLabel = "";
+    if (lvlSummary.level === 1) {
+      title = "Year 1";
+      subLabel = "Diploma in IT";
+    } else if (lvlSummary.level === 2) {
+      title = "Year 2";
+      subLabel = "Higher Diploma";
+    } else if (lvlSummary.level === 3) {
+      title = "Year 3";
+      subLabel = "BIT Degree";
+    }
+
+    const gpaText = lvlSummary.gpa !== null ? lvlSummary.gpa.toFixed(2) : "--";
+    const creditsText = `${lvlSummary.credits} / ${lvlSummary.totalCredits}`;
+
+    // Map progress state to badge class
+    let badgeClass = "neutral";
+    let badgeText = "No grades";
+    if (lvlSummary.progressState === "eligible") {
+      badgeClass = "success";
+      badgeText = "Eligible";
+    } else if (lvlSummary.progressState === "caution") {
+      badgeClass = "warning";
+      badgeText = "Caution";
+    } else if (lvlSummary.progressState === "blocked") {
+      badgeClass = "danger";
+      badgeText = "Blocked";
+    } else if (lvlSummary.progressState === "neutral" && lvlSummary.credits > 0) {
+      badgeClass = "info";
+      badgeText = "On Track";
+    }
+
+    card.innerHTML = `
+      <div class="summary-card-header">
+        <div>
+          <span class="sub-label">${subLabel}</span>
+          <h3>${title}</h3>
+        </div>
+        <span class="status-badge ${badgeClass}">${badgeText}</span>
+      </div>
+      <div class="summary-card-body">
+        <div class="summary-stat">
+          <span class="stat-label">GPA</span>
+          <span class="stat-value">${gpaText}</span>
+        </div>
+        <div class="summary-stat">
+          <span class="stat-label">Credits</span>
+          <span class="stat-value">${creditsText}</span>
+        </div>
+      </div>
+      <button class="configure-level-btn" type="button">Edit Grades</button>
+    `;
+
+    // Click handler for Edit button
+    card.querySelector(".configure-level-btn").addEventListener("click", () => {
+      state.activeTab = lvlSummary.level;
+      updateTabUI();
+      saveState();
+      render();
+    });
+
+    container.appendChild(card);
+  });
 }
 
 // Initial Run

@@ -44,35 +44,60 @@
     </script>
   </head>
   <body>
+    <!-- Global Floating Theme Toggle -->
+    <button id="themeToggleBtn" class="theme-toggle" aria-label="Toggle dark/light theme" type="button">
+      <!-- Sun Icon -->
+      <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+      </svg>
+      <!-- Moon Icon -->
+      <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+      </svg>
+    </button>
+
+    <!-- Welcome Screen View -->
+    <div id="welcomeScreen" class="welcome-screen">
+      <div class="welcome-card">
+        <div class="welcome-icon-wrapper">
+          <svg class="welcome-cap-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 3L1 9L12 15L21.35 9.87V17H23V9L12 3Z"/>
+            <path d="M19 12V17C19 18.66 15.87 20 12 20C8.13 20 5 18.66 5 17V12L12 16L19 12Z"/>
+          </svg>
+        </div>
+        <h1>Welcome to Colombo BIT GPA Calculator</h1>
+        <p class="lead">Easily calculate your GPA for each year and semester. Start by tapping the button below!</p>
+        <div class="welcome-btn-row">
+          <button class="welcome-btn" data-btn-level="1" type="button">Year 1</button>
+          <button class="welcome-btn" data-btn-level="2" type="button">Year 2</button>
+          <button class="welcome-btn" data-btn-level="3" type="button">Year 3</button>
+        </div>
+        <div class="welcome-btn-row-final">
+          <button class="welcome-btn-final" data-btn-level="final" type="button">🏆 View Final GPA & Milestones</button>
+        </div>
+        <footer class="welcome-footer">
+          Developed by <a href="https://github.com/adeshasur" target="_blank" rel="noopener">Adheesha Sooriyaarachchi</a> | <span class="company-name">CodaWix™</span>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Dashboard App Layout -->
     <main class="app-shell">
       <div class="app-layout">
         
         <!-- Left Column: Dashboard Sidebar -->
         <aside class="dashboard-sidebar" aria-label="Dashboard and controls">
           
-          <!-- Header and Theme Toggle -->
-          <div class="brand-card">
-            <div class="brand-top-row">
-              <span class="eyebrow">UCSC BIT Tool</span>
-              <button id="themeToggleBtn" class="theme-toggle" aria-label="Toggle dark/light theme" type="button">
-                <!-- Sun Icon -->
-                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
-                </svg>
-                <!-- Moon Icon -->
-                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-              </button>
-            </div>
-            <h1>BIT GPA Calculator</h1>
-            <p class="lead">UCSC Bachelor of Information Technology GPA simulator.</p>
+          <!-- Sidebar Brand Title -->
+          <div class="sidebar-brand">
+            <span class="eyebrow">UCSC BIT Tool</span>
+            <h2>BIT Dashboard</h2>
           </div>
 
-          <!-- Overall GPA Gauge Card -->
-          <section class="score-card" aria-label="Overall GPA Score">
+          <!-- Overall GPA Gauge Card (Only on Final GPA Page) -->
+          <section id="overallGpaCard" class="overall-gpa-sidebar-card" aria-label="Overall GPA Score">
             <div class="gpa-gauge-container">
-              <svg class="gpa-gauge" viewBox="0 0 100 100">
+              <svg class="gpa-gauge" viewBox="0 0 100 100" aria-label="GPA Gauge Graph">
                 <circle class="gauge-bg" cx="50" cy="50" r="42" fill="none" stroke-width="7.5"></circle>
                 <circle id="gaugeProgress" class="gauge-value" cx="50" cy="50" r="42" fill="none" stroke-width="7.5" stroke-dasharray="263.89" stroke-dashoffset="263.89"></circle>
               </svg>
@@ -84,35 +109,24 @@
             </div>
           </section>
 
-          <!-- Milestone Awards Card -->
-          <section class="awards-card" aria-label="Milestone Awards Status">
-            <h2>Milestone Awards</h2>
-            <div class="awards-vertical-list">
-              <div id="ditAward" class="award-status-box pending">
-                <span class="award-icon">🎓</span>
-                <div class="award-details">
-                  <span class="award-name">Diploma in IT (DIT)</span>
-                  <span class="award-desc">All Level I subjects &ge; C, EN passed</span>
-                </div>
-                <span class="award-badge">Pending</span>
+          <!-- Level Overview Card (Only on Year Pages) -->
+          <section id="levelOverview" class="level-overview-sidebar-card" aria-label="Level Progression Summary">
+            <div class="level-overview-header">
+              <h2 id="activeLevelTitle">Level I - Diploma in IT</h2>
+              <span id="activeLevelBadge" class="badge gpa">GPA --</span>
+            </div>
+            <div class="level-overview-stats">
+              <div class="stat-box">
+                <span class="stat-lbl">GPA Credits Entered</span>
+                <strong id="activeLevelCredits">0 / 30</strong>
               </div>
-              
-              <div id="hditAward" class="award-status-box pending">
-                <span class="award-icon">📜</span>
-                <div class="award-details">
-                  <span class="award-name">Higher Diploma (HDIT)</span>
-                  <span class="award-desc">All Level I & II &ge; C, EN passed</span>
-                </div>
-                <span class="award-badge">Pending</span>
+              <div class="stat-box">
+                <span class="stat-lbl">Credits &ge; C</span>
+                <strong id="activeLevelCCredits">0 / 20 required</strong>
               </div>
-              
-              <div id="bitAward" class="award-status-box pending">
-                <span class="award-icon">👑</span>
-                <div class="award-details">
-                  <span class="award-name">BIT Degree (SLQF 5)</span>
-                  <span class="award-desc">All Levels &ge; C, GPA &ge; 2.00, EN passed</span>
-                </div>
-                <span class="award-badge">Pending</span>
+              <div class="stat-box progression-box">
+                <span class="stat-lbl">Progression Standing</span>
+                <em id="activeLevelStatus" class="neutral-status">No grades entered yet.</em>
               </div>
             </div>
           </section>
@@ -133,13 +147,13 @@
               </div>
             </fieldset>
 
-            <div class="control-group">
+            <div class="control-group quick-simulate-group">
               <span class="control-label">Quick Simulate Grades</span>
               <div class="quick-fill-buttons">
                 <button class="fill-btn" data-grade="A" title="Set all visible courses to A" type="button">A</button>
                 <button class="fill-btn" data-grade="B" title="Set all visible courses to B" type="button">B</button>
                 <button class="fill-btn" data-grade="C" title="Set all visible courses to C" type="button">C</button>
-                <button class="fill-btn" data-grade="D" title="Set all visible courses to D" type="button">D</button>
+                <button class="fill-btn" data-grade="D" title="Set all simulated grades to D" type="button">D</button>
                 <button class="fill-btn" data-btn="clear" title="Clear all simulated grades" type="button">Clear</button>
               </div>
             </div>
@@ -156,6 +170,12 @@
               <li><strong>Enhancements:</strong> EN modules are Pass/Fail and do not count for GPA.</li>
             </ul>
           </div>
+
+          <!-- App Sidebar Footer -->
+          <footer class="app-sidebar-footer">
+            <span>Developed by <a href="https://github.com/adeshasur" target="_blank" rel="noopener">Adheesha Sooriyaarachchi</a></span>
+            <span class="company-tag">CodaWix™</span>
+          </footer>
         </aside>
 
         <!-- Right Column: Course Workspace -->
@@ -164,6 +184,9 @@
           <!-- Tab Navigation -->
           <nav class="level-tabs-container" aria-label="Select Academic Level">
             <div class="level-tabs" id="levelTabs">
+              <button class="tab-btn" data-level="home" type="button">
+                <span class="tab-number">🏠 Home</span>
+              </button>
               <button class="tab-btn active" data-level="1" type="button">
                 <span class="tab-number">Level I</span>
                 <span class="tab-label">Diploma in IT</span>
@@ -176,35 +199,63 @@
                 <span class="tab-number">Level III</span>
                 <span class="tab-label">BIT Degree</span>
               </button>
+              <button class="tab-btn" data-level="final" type="button">
+                <span class="tab-number">🏆 Final GPA</span>
+                <span class="tab-label">Milestones & Summary</span>
+              </button>
             </div>
           </nav>
 
-          <!-- Level Status Overview Card -->
-          <article id="levelOverview" class="level-overview-card">
-            <div class="level-overview-header">
-              <h2 id="activeLevelTitle">Level I - Diploma in IT</h2>
-              <span id="activeLevelBadge" class="badge gpa">GPA --</span>
-            </div>
-            <div class="level-overview-stats">
-              <div class="stat-box">
-                <span class="stat-lbl">GPA Credits Entered</span>
-                <strong id="activeLevelCredits">0 / 30</strong>
-              </div>
-              <div class="stat-box">
-                <span class="stat-lbl">Credits &ge; C</span>
-                <strong id="activeLevelCCredits">0 / 20 required</strong>
-              </div>
-              <div class="stat-box progression-box">
-                <span class="stat-lbl">Progression Standing</span>
-                <em id="activeLevelStatus" class="neutral-status">No grades entered yet.</em>
-              </div>
-            </div>
-          </article>
-
-          <!-- Courses Grid -->
+          <!-- Courses Grid (Shown on active level 1, 2, 3) -->
           <section id="courseGrid" class="course-grid" aria-label="Active Level Courses">
             <!-- Dynamic course cards injected here -->
           </section>
+
+          <!-- Final GPA Overview Workspace (Shown on active level 'final') -->
+          <div id="finalGpaWorkspace" class="final-gpa-workspace">
+            
+            <!-- Year Summaries Grid -->
+            <section class="year-summary-section">
+              <h2>Academic Years Summary</h2>
+              <div id="yearSummaryGrid" class="year-summary-grid">
+                <!-- Dynamic cards injected here -->
+              </div>
+            </section>
+
+            <!-- Milestone Awards Card (moved here) -->
+            <section class="awards-card" aria-label="Milestone Awards Status">
+              <h2>Milestone Awards</h2>
+              <div class="awards-vertical-list">
+                <div id="ditAward" class="award-status-box pending">
+                  <span class="award-icon">🎓</span>
+                  <div class="award-details">
+                    <span class="award-name">Diploma in IT (DIT)</span>
+                    <span class="award-desc">All Level I subjects &ge; C, EN passed</span>
+                  </div>
+                  <span class="award-badge">Pending</span>
+                </div>
+                
+                <div id="hditAward" class="award-status-box pending">
+                  <span class="award-icon">📜</span>
+                  <div class="award-details">
+                    <span class="award-name">Higher Diploma (HDIT)</span>
+                    <span class="award-desc">All Level I & II &ge; C, EN passed</span>
+                  </div>
+                  <span class="award-badge">Pending</span>
+                </div>
+                
+                <div id="bitAward" class="award-status-box pending">
+                  <span class="award-icon">👑</span>
+                  <div class="award-details">
+                    <span class="award-name">BIT Degree (SLQF 5)</span>
+                    <span class="award-desc">All Levels &ge; C, GPA &ge; 2.00, EN passed</span>
+                  </div>
+                  <span class="award-badge">Pending</span>
+                </div>
+              </div>
+            </section>
+
+          </div>
 
           <!-- SEO Copy -->
           <section class="seo-copy" aria-label="About this BIT GPA calculator">
