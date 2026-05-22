@@ -38,46 +38,63 @@
   </head>
   <body>
     <main class="app-shell">
-      <section class="hero">
-        <div>
-          <p class="eyebrow">UCSC BIT 2023</p>
+      <header class="app-header">
+        <div class="brand-block">
+          <p class="eyebrow">UCSC BIT GPA Tool</p>
           <h1>BIT GPA Calculator</h1>
-          <p class="lead">Calculate your Level I, Level II, Level III, and overall GPA with repeat caps, EN course tracking, and progression warnings handled automatically.</p>
-          <div class="hero-actions" aria-label="Calculator highlights">
-            <span>Repeat cap: C / 2.00</span>
-            <span>EN courses excluded from GPA</span>
-            <span>20 C-credit progression check</span>
+          <p class="lead">Enter grades by course. GPA, repeat cap, EN pass status, and progression warnings update instantly.</p>
+          <div class="quick-strip" aria-label="Calculator rules summary">
+            <span><strong>90</strong> GPA credits</span>
+            <span><strong>C</strong> repeat cap</span>
+            <span><strong>20</strong> C-credit check</span>
+            <span><strong>EN</strong> pass tracked</span>
           </div>
         </div>
         <div class="score-panel">
-          <span class="score-label">Overall GPA</span>
+          <div class="score-topline">
+            <span class="score-label">Overall GPA</span>
+            <span class="score-status">Live</span>
+          </div>
           <strong id="overallGpa">--</strong>
           <span id="overallCredits">0 / 90 GPA credits</span>
         </div>
+      </header>
+
+      <section class="workspace-grid">
+        <aside class="controls" aria-label="Calculator controls">
+          <div class="control-group">
+            <label for="levelFilter">Level view</label>
+            <select id="levelFilter">
+              <option value="all">All levels</option>
+              <option value="1">Level I</option>
+              <option value="2">Level II</option>
+              <option value="3">Level III</option>
+            </select>
+          </div>
+
+          <fieldset class="elective-control">
+            <legend>Level III optional course</legend>
+            <label><input type="radio" name="level3Elective" value="IT5506" checked> IT5506 Maths II</label>
+            <label><input type="radio" name="level3Elective" value="IT6506"> IT6506 e-Business</label>
+          </fieldset>
+
+          <div class="rule-card" aria-label="Applied rules">
+            <span>Rules applied</span>
+            <ul>
+              <li>Repeat grades are capped at C / 2.00.</li>
+              <li>EN courses are tracked, not counted for GPA.</li>
+              <li>Progression checks use GPA, C credits, E grades, and EN passes.</li>
+            </ul>
+          </div>
+
+          <button id="resetBtn" type="button">Reset all grades</button>
+        </aside>
+
+        <section class="calculator-panel">
+          <section id="summary" class="summary-grid" aria-label="GPA summary"></section>
+          <section id="courseContainer" class="levels" aria-label="Course grades"></section>
+        </section>
       </section>
-
-      <section class="controls" aria-label="Calculator controls">
-        <label>
-          View
-          <select id="levelFilter">
-            <option value="all">All levels</option>
-            <option value="1">Level I</option>
-            <option value="2">Level II</option>
-            <option value="3">Level III</option>
-          </select>
-        </label>
-
-        <fieldset class="elective-control">
-          <legend>Level III optional course</legend>
-          <label><input type="radio" name="level3Elective" value="IT5506" checked> IT5506 Maths II</label>
-          <label><input type="radio" name="level3Elective" value="IT6506"> IT6506 e-Business</label>
-        </fieldset>
-
-        <button id="resetBtn" type="button">Reset</button>
-      </section>
-
-      <section id="summary" class="summary-grid" aria-label="GPA summary"></section>
-      <section id="courseContainer" class="levels" aria-label="Course grades"></section>
 
       <section class="seo-copy" aria-label="About this BIT GPA calculator">
         <h2>UCSC BIT GPA Calculator for Sri Lankan BIT Students</h2>
