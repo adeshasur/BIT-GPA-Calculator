@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BIT GPA Calculator Sri Lanka | UCSC BIT GPA & Repeat Calculator</title>
+    <meta name="description" content="Calculate UCSC BIT Level I, Level II, Level III and overall GPA with repeat grade caps, EN course tracking, progression warnings and Level III elective selection.">
+    <meta name="keywords" content="BIT GPA Calculator, UCSC BIT GPA, BIT Sri Lanka, BIT repeat calculator, UCSC GPA calculator, BIT Level 1 GPA, BIT Level 2 GPA, BIT Level 3 GPA">
+    <meta name="author" content="adeshasur">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0f3d2e">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="BIT GPA Calculator Sri Lanka">
+    <meta property="og:description" content="A clean UCSC BIT GPA calculator with repeat caps, EN pass tracking and progression warnings.">
+    <meta property="og:url" content="https://bit-gpa-calculator.netlify.app/">
+    <meta property="og:site_name" content="BIT GPA Calculator">
+    <meta property="og:locale" content="en_LK">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="BIT GPA Calculator Sri Lanka">
+    <meta name="twitter:description" content="Calculate UCSC BIT GPA, repeat caps and progression status in one place.">
+    <link rel="canonical" href="https://bit-gpa-calculator.netlify.app/">
+    <link rel="stylesheet" href="styles.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "BIT GPA Calculator Sri Lanka",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Any",
+        "description": "UCSC BIT GPA calculator with grade point values, repeat grade cap, EN course tracking and progression warnings.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "LKR"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">UCSC BIT 2023</p>
+          <h1>BIT GPA Calculator</h1>
+          <p class="lead">Calculate your Level I, Level II, Level III, and overall GPA with repeat caps, EN course tracking, and progression warnings handled automatically.</p>
+          <div class="hero-actions" aria-label="Calculator highlights">
+            <span>Repeat cap: C / 2.00</span>
+            <span>EN courses excluded from GPA</span>
+            <span>20 C-credit progression check</span>
+          </div>
+        </div>
+        <div class="score-panel">
+          <span class="score-label">Overall GPA</span>
+          <strong id="overallGpa">--</strong>
+          <span id="overallCredits">0 / 90 GPA credits</span>
+        </div>
+      </section>
+
+      <section class="controls" aria-label="Calculator controls">
+        <label>
+          View
+          <select id="levelFilter">
+            <option value="all">All levels</option>
+            <option value="1">Level I</option>
+            <option value="2">Level II</option>
+            <option value="3">Level III</option>
+          </select>
+        </label>
+
+        <fieldset class="elective-control">
+          <legend>Level III optional course</legend>
+          <label><input type="radio" name="level3Elective" value="IT5506" checked> IT5506 Maths II</label>
+          <label><input type="radio" name="level3Elective" value="IT6506"> IT6506 e-Business</label>
+        </fieldset>
+
+        <button id="resetBtn" type="button">Reset</button>
+      </section>
+
+      <section id="summary" class="summary-grid" aria-label="GPA summary"></section>
+      <section id="courseContainer" class="levels" aria-label="Course grades"></section>
+
+      <section class="seo-copy" aria-label="About this BIT GPA calculator">
+        <h2>UCSC BIT GPA Calculator for Sri Lankan BIT Students</h2>
+        <p>This calculator follows the BIT 2023 course structure, grade point values, repeat cap rule, Level III optional course selection, and non-GPA EN course handling. It is built for quick result checks after each semester and for understanding whether a level is currently safe for progression.</p>
+      </section>
+    </main>
+
+    <template id="gradeOptions">
+      <option value="">Select</option>
+      <option value="A+">A+</option>
+      <option value="A">A</option>
+      <option value="A-">A-</option>
+      <option value="B+">B+</option>
+      <option value="B">B</option>
+      <option value="B-">B-</option>
+      <option value="C+">C+</option>
+      <option value="C">C</option>
+      <option value="C-">C-</option>
+      <option value="D+">D+</option>
+      <option value="D">D</option>
+      <option value="E">E</option>
+    </template>
+
+    <script src="script.js"></script>
+  </body>
+</html>
