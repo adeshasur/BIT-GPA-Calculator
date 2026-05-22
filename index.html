@@ -45,148 +45,180 @@
   </head>
   <body>
     <main class="app-shell">
-      <header class="app-header">
-        <div class="brand-block">
-          <div class="header-top-row">
-            <span class="eyebrow">UCSC BIT Tool</span>
-            <button id="themeToggleBtn" class="theme-toggle" aria-label="Toggle dark/light theme" type="button">
-              <!-- Sun Icon -->
-              <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
-              </svg>
-              <!-- Moon Icon -->
-              <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-              </svg>
-            </button>
-          </div>
-          <h1>BIT GPA Calculator</h1>
-          <p class="lead">UCSC Bachelor of Information Technology GPA tool. Track repeats, check progression milestones, and simulate grades instantly.</p>
-          
-          <div class="quick-strip" aria-label="Calculator rules summary">
-            <span><strong>90</strong> GPA Credits</span>
-            <span><strong>C / 2.00</strong> Repeat Cap</span>
-            <span><strong>1.50</strong> Progression GPA</span>
-            <span><strong>EN</strong> Passes Tracked</span>
-          </div>
-        </div>
+      <div class="app-layout">
         
-        <div class="score-panel">
-          <div class="gpa-gauge-container">
-            <svg class="gpa-gauge" viewBox="0 0 100 100">
-              <circle class="gauge-bg" cx="50" cy="50" r="42" fill="none" stroke-width="8"></circle>
-              <circle id="gaugeProgress" class="gauge-value" cx="50" cy="50" r="42" fill="none" stroke-width="8" stroke-dasharray="263.89" stroke-dashoffset="263.89"></circle>
-            </svg>
-            <div class="gauge-text">
-              <span class="score-label">Cumulative GPA</span>
-              <strong id="overallGpa">--</strong>
-              <span id="overallCredits" class="credits-count">0 / 90 Credits</span>
+        <!-- Left Column: Dashboard Sidebar -->
+        <aside class="dashboard-sidebar" aria-label="Dashboard and controls">
+          
+          <!-- Header and Theme Toggle -->
+          <div class="brand-card">
+            <div class="brand-top-row">
+              <span class="eyebrow">UCSC BIT Tool</span>
+              <button id="themeToggleBtn" class="theme-toggle" aria-label="Toggle dark/light theme" type="button">
+                <!-- Sun Icon -->
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
+                <!-- Moon Icon -->
+                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              </button>
             </div>
-          </div>
-        </div>
-      </header>
-
-      <section class="workspace-grid">
-        <aside class="controls" aria-label="Calculator controls">
-          <div class="control-group">
-            <label for="levelFilter">Filter by Level</label>
-            <select id="levelFilter">
-              <option value="all">All Levels (DIT & BIT)</option>
-              <option value="1">Level I (Diploma in IT)</option>
-              <option value="2">Level II (Higher Diploma in IT)</option>
-              <option value="3">Level III (BIT Degree)</option>
-            </select>
+            <h1>BIT GPA Calculator</h1>
+            <p class="lead">UCSC Bachelor of Information Technology GPA simulator.</p>
           </div>
 
-          <fieldset class="elective-control">
-            <legend>Level III Elective Course</legend>
-            <div class="radio-group">
-              <label class="radio-label">
-                <input type="radio" name="level3Elective" value="IT5506" checked>
-                <span class="radio-text">IT5506 Mathematics II</span>
-              </label>
-              <label class="radio-label">
-                <input type="radio" name="level3Elective" value="IT6506">
-                <span class="radio-text">IT6506 e-Business Tech</span>
-              </label>
+          <!-- Overall GPA Gauge Card -->
+          <section class="score-card" aria-label="Overall GPA Score">
+            <div class="gpa-gauge-container">
+              <svg class="gpa-gauge" viewBox="0 0 100 100">
+                <circle class="gauge-bg" cx="50" cy="50" r="42" fill="none" stroke-width="7.5"></circle>
+                <circle id="gaugeProgress" class="gauge-value" cx="50" cy="50" r="42" fill="none" stroke-width="7.5" stroke-dasharray="263.89" stroke-dashoffset="263.89"></circle>
+              </svg>
+              <div class="gauge-text">
+                <span class="score-label">Cumulative GPA</span>
+                <strong id="overallGpa">--</strong>
+                <span id="overallCredits" class="credits-count">0 / 90 Credits</span>
+              </div>
             </div>
-          </fieldset>
+          </section>
 
-          <div class="control-group">
-            <label>Simulate All Grades</label>
-            <div class="quick-fill-buttons">
-              <button class="fill-btn" data-grade="A" title="Set all attempts to A" type="button">A</button>
-              <button class="fill-btn" data-grade="B" title="Set all attempts to B" type="button">B</button>
-              <button class="fill-btn" data-grade="C" title="Set all attempts to C" type="button">C</button>
-              <button class="fill-btn" data-grade="D" title="Set all attempts to D" type="button">D</button>
-              <button class="fill-btn" data-btn="clear" title="Clear all entered grades" type="button">Clear</button>
+          <!-- Milestone Awards Card -->
+          <section class="awards-card" aria-label="Milestone Awards Status">
+            <h2>Milestone Awards</h2>
+            <div class="awards-vertical-list">
+              <div id="ditAward" class="award-status-box pending">
+                <span class="award-icon">🎓</span>
+                <div class="award-details">
+                  <span class="award-name">Diploma in IT (DIT)</span>
+                  <span class="award-desc">All Level I subjects &ge; C, EN passed</span>
+                </div>
+                <span class="award-badge">Pending</span>
+              </div>
+              
+              <div id="hditAward" class="award-status-box pending">
+                <span class="award-icon">📜</span>
+                <div class="award-details">
+                  <span class="award-name">Higher Diploma (HDIT)</span>
+                  <span class="award-desc">All Level I & II &ge; C, EN passed</span>
+                </div>
+                <span class="award-badge">Pending</span>
+              </div>
+              
+              <div id="bitAward" class="award-status-box pending">
+                <span class="award-icon">👑</span>
+                <div class="award-details">
+                  <span class="award-name">BIT Degree (SLQF 5)</span>
+                  <span class="award-desc">All Levels &ge; C, GPA &ge; 2.00, EN passed</span>
+                </div>
+                <span class="award-badge">Pending</span>
+              </div>
             </div>
-          </div>
+          </section>
 
-          <div class="rule-card" aria-label="UCSC BIT GPA Rules">
-            <span>UCSC Academic Rules</span>
+          <!-- Settings and Controls -->
+          <section class="controls-card" aria-label="Calculator Settings">
+            <fieldset class="elective-control">
+              <legend>Level III Elective</legend>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="level3Elective" value="IT5506" checked>
+                  <span class="radio-text">IT5506 Mathematics II</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="level3Elective" value="IT6506">
+                  <span class="radio-text">IT6506 e-Business Tech</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="control-group">
+              <span class="control-label">Quick Simulate Grades</span>
+              <div class="quick-fill-buttons">
+                <button class="fill-btn" data-grade="A" title="Set all visible courses to A" type="button">A</button>
+                <button class="fill-btn" data-grade="B" title="Set all visible courses to B" type="button">B</button>
+                <button class="fill-btn" data-grade="C" title="Set all visible courses to C" type="button">C</button>
+                <button class="fill-btn" data-grade="D" title="Set all visible courses to D" type="button">D</button>
+                <button class="fill-btn" data-btn="clear" title="Clear all simulated grades" type="button">Clear</button>
+              </div>
+            </div>
+
+            <button id="resetBtn" class="reset-button" type="button">Reset All Inputs</button>
+          </section>
+
+          <!-- Quick rules card -->
+          <div class="rule-card" aria-label="UCSC Academic Rules Summary">
+            <span>UCSC Repeats & Rules</span>
             <ul>
-              <li><strong>Repeats:</strong> C- or below (< 2.00) can be repeated. Grade is capped at C (2.00) for GPA.</li>
-              <li><strong>Progression:</strong> Minimum Year GPA >= 1.50, and 20+ GPA credits >= C.</li>
-              <li><strong>EN Modules:</strong> Mandatory non-GPA passes. Excluded from credit calculations.</li>
+              <li><strong>Repeats:</strong> Grades &le; C- are repeatable. Capped at C (2.00) for GPA.</li>
+              <li><strong>Progression:</strong> Year GPA &ge; 1.50, and 20+ GPA credits &ge; C.</li>
+              <li><strong>Enhancements:</strong> EN modules are Pass/Fail and do not count for GPA.</li>
             </ul>
           </div>
-
-          <button id="resetBtn" class="reset-button" type="button">Reset Calculator</button>
         </aside>
 
-        <section class="calculator-panel">
-          <!-- Award Eligibility widget -->
-          <article class="awards-card" aria-label="UCSC BIT Milestone Awards">
-            <header class="card-header">
-              <h2>Milestone Award Eligibility</h2>
-              <span class="badge info">SLQF Levels 3, 4 & 5</span>
-            </header>
-            <div class="awards-grid">
-              <div id="ditAward" class="award-status-box pending">
-                <div class="award-title-row">
-                  <span class="award-icon">🎓</span>
-                  <span class="award-name">Diploma in IT (DIT)</span>
-                </div>
-                <div class="award-desc">Required: All Level I courses &ge; C, EN courses passed</div>
-                <span class="award-badge">Incomplete</span>
+        <!-- Right Column: Course Workspace -->
+        <section class="course-workspace" aria-label="Course worksheets">
+          
+          <!-- Tab Navigation -->
+          <nav class="level-tabs-container" aria-label="Select Academic Level">
+            <div class="level-tabs" id="levelTabs">
+              <button class="tab-btn active" data-level="1" type="button">
+                <span class="tab-number">Level I</span>
+                <span class="tab-label">Diploma in IT</span>
+              </button>
+              <button class="tab-btn" data-level="2" type="button">
+                <span class="tab-number">Level II</span>
+                <span class="tab-label">Higher Diploma</span>
+              </button>
+              <button class="tab-btn" data-level="3" type="button">
+                <span class="tab-number">Level III</span>
+                <span class="tab-label">BIT Degree</span>
+              </button>
+            </div>
+          </nav>
+
+          <!-- Level Status Overview Card -->
+          <article id="levelOverview" class="level-overview-card">
+            <div class="level-overview-header">
+              <h2 id="activeLevelTitle">Level I - Diploma in IT</h2>
+              <span id="activeLevelBadge" class="badge gpa">GPA --</span>
+            </div>
+            <div class="level-overview-stats">
+              <div class="stat-box">
+                <span class="stat-lbl">GPA Credits Entered</span>
+                <strong id="activeLevelCredits">0 / 30</strong>
               </div>
-              <div id="hditAward" class="award-status-box pending">
-                <div class="award-title-row">
-                  <span class="award-icon">📜</span>
-                  <span class="award-name">Higher Diploma (HDIT)</span>
-                </div>
-                <div class="award-desc">Required: All Level I & II courses &ge; C, EN courses passed</div>
-                <span class="award-badge">Incomplete</span>
+              <div class="stat-box">
+                <span class="stat-lbl">Credits &ge; C</span>
+                <strong id="activeLevelCCredits">0 / 20 required</strong>
               </div>
-              <div id="bitAward" class="award-status-box pending">
-                <div class="award-title-row">
-                  <span class="award-icon">👑</span>
-                  <span class="award-name">BIT Bachelor Degree</span>
-                </div>
-                <div class="award-desc">Required: All Levels &ge; C, GPA &ge; 2.00, EN passed</div>
-                <span class="award-badge">Incomplete</span>
+              <div class="stat-box progression-box">
+                <span class="stat-lbl">Progression Standing</span>
+                <em id="activeLevelStatus" class="neutral-status">No grades entered yet.</em>
               </div>
             </div>
           </article>
 
-          <!-- Year-wise summaries -->
-          <section id="summary" class="summary-grid" aria-label="GPA summaries"></section>
-          
-          <!-- Course Container tables -->
-          <section id="courseContainer" class="levels" aria-label="Course list"></section>
-        </section>
-      </section>
+          <!-- Courses Grid -->
+          <section id="courseGrid" class="course-grid" aria-label="Active Level Courses">
+            <!-- Dynamic course cards injected here -->
+          </section>
 
-      <section class="seo-copy" aria-label="About this BIT GPA calculator">
-        <h2>UCSC BIT GPA Calculator for Sri Lankan External Degree Students</h2>
-        <p>This unofficial GPA and Repeat calculator is calibrated for the Bachelor of Information Technology (BIT) curriculum of the University of Colombo School of Computing (UCSC), Sri Lanka. It correctly handles the 1.50 GPA progression rule, grade capping for repeated subjects at C (2.00 GPV), non-GPA Enhancement (EN) courses, and provides instant status validation for DIT, HDIT, and BIT milestones. Reference code and layout are designed for ease of use on both desktop and mobile.</p>
-      </section>
+          <!-- SEO Copy -->
+          <section class="seo-copy" aria-label="About this BIT GPA calculator">
+            <h2>UCSC BIT GPA Calculator for Sri Lankan External Degree Students</h2>
+            <p>This unofficial GPA and Repeat calculator is calibrated for the Bachelor of Information Technology (BIT) curriculum of the University of Colombo School of Computing (UCSC), Sri Lanka. It correctly handles the 1.50 GPA progression rule, grade capping for repeated subjects at C (2.00 GPV), non-GPA Enhancement (EN) courses, and provides instant status validation for DIT, HDIT, and BIT milestones. Reference code and layout are designed for ease of use on both desktop and mobile.</p>
+          </section>
+        </section>
+        
+      </div>
     </main>
 
     <!-- Grade Option Template -->
     <template id="gradeOptions">
-      <option value="">Grade</option>
+      <option value="">Select Grade</option>
       <option value="A+">A+ (4.00)</option>
       <option value="A">A (4.00)</option>
       <option value="A-">A- (3.70)</option>
@@ -201,6 +233,8 @@
       <option value="E">E (0.00)</option>
     </template>
 
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
