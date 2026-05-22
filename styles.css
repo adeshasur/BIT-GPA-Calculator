@@ -12,31 +12,31 @@
   --bg-panel-solid: hsl(222, 47%, 10%);
   --bg-card: rgba(30, 41, 59, 0.45);
   --border-color: rgba(255, 255, 255, 0.08);
-  --border-focus: rgba(16, 185, 129, 0.4);
+  --border-focus: rgba(59, 130, 246, 0.4);
   
   --text-primary: hsl(210, 40%, 98%);
   --text-secondary: hsl(215, 20%, 78%);
   --text-muted: hsl(215, 16%, 58%);
   
-  --color-brand: hsl(160, 84%, 39%);
-  --color-brand-glow: rgba(16, 185, 129, 0.15);
+  --color-brand: hsl(217, 91%, 60%);
+  --color-brand-glow: rgba(59, 130, 246, 0.15);
   --color-secondary: hsl(217, 91%, 60%);
   
   --success: hsl(160, 84%, 39%);
   --success-bg: rgba(16, 185, 129, 0.08);
   --success-border: rgba(16, 185, 129, 0.2);
   
-  --warning: hsl(38, 92%, 50%);
-  --warning-bg: rgba(245, 158, 11, 0.08);
-  --warning-border: rgba(245, 158, 11, 0.2);
+  --warning: hsl(350, 89%, 60%);
+  --warning-bg: rgba(239, 68, 68, 0.08);
+  --warning-border: rgba(239, 68, 68, 0.2);
   
   --danger: hsl(350, 89%, 60%);
   --danger-bg: rgba(239, 68, 68, 0.08);
   --danger-border: rgba(239, 68, 68, 0.25);
   
-  --info: hsl(199, 89%, 48%);
-  --info-bg: rgba(14, 165, 233, 0.08);
-  --info-border: rgba(14, 165, 233, 0.25);
+  --info: hsl(217, 91%, 60%);
+  --info-bg: rgba(59, 130, 246, 0.08);
+  --info-border: rgba(59, 130, 246, 0.25);
 
   --shadow-lg: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
   --shadow-md: 0 10px 20px -8px rgba(0, 0, 0, 0.3);
@@ -55,32 +55,32 @@
   --bg-panel-solid: hsl(0, 0%, 100%);
   --bg-card: rgba(241, 245, 249, 0.8);
   --border-color: rgba(15, 23, 42, 0.08);
-  --border-focus: rgba(16, 185, 129, 0.5);
+  --border-focus: rgba(59, 130, 246, 0.5);
   
   --text-primary: hsl(222, 47%, 12%);
   --text-secondary: hsl(222, 20%, 38%);
   --text-muted: hsl(215, 16%, 50%);
   
-  --color-brand: hsl(160, 84%, 32%);
-  --color-brand-glow: rgba(5, 150, 105, 0.1);
+  --color-brand: hsl(221, 83%, 53%);
+  --color-brand-glow: rgba(59, 130, 246, 0.1);
   --color-secondary: hsl(221, 83%, 53%);
   
   --success: hsl(160, 84%, 32%);
   --success-bg: rgba(5, 150, 105, 0.08);
   --success-border: rgba(5, 150, 105, 0.18);
   
-  --warning: hsl(38, 92%, 38%);
-  --warning-bg: rgba(217, 119, 6, 0.08);
-  --warning-border: rgba(217, 119, 6, 0.18);
+  --warning: hsl(350, 89%, 48%);
+  --warning-bg: rgba(220, 38, 38, 0.07);
+  --warning-border: rgba(220, 38, 38, 0.18);
   
   --danger: hsl(350, 89%, 48%);
   --danger-bg: rgba(220, 38, 38, 0.07);
   --danger-border: rgba(220, 38, 38, 0.18);
   
-  --info: hsl(199, 89%, 38%);
-  --info-bg: rgba(2, 132, 199, 0.08);
-  --info-border: rgba(2, 132, 199, 0.18);
-
+  --info: hsl(221, 83%, 53%);
+  --info-bg: rgba(59, 130, 246, 0.08);
+  --info-border: rgba(59, 130, 246, 0.18);
+ 
   --shadow-lg: 0 20px 40px -15px rgba(15, 23, 42, 0.06);
   --shadow-md: 0 10px 20px -8px rgba(15, 23, 42, 0.04);
 }
@@ -106,9 +106,8 @@ html, body {
 
 body {
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 45%),
-    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 50%);
+    radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 45%);
 }
 
 /* Background Grid Mesh */

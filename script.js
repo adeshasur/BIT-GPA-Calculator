@@ -576,12 +576,10 @@ function renderCourseCard(course) {
       const gpv = effectiveGradePoint(course);
       if (gpv === null) {
         dot.className = "grade-indicator-dot";
-      } else if (gpv >= 3.7) {
-        dot.className = "grade-indicator-dot grade-excellent";
       } else if (gpv >= 3.0) {
-        dot.className = "grade-indicator-dot grade-good";
+        dot.className = "grade-indicator-dot grade-excellent";
       } else if (gpv >= 2.0) {
-        dot.className = "grade-indicator-dot grade-average";
+        dot.className = "grade-indicator-dot grade-good";
       } else {
         dot.className = "grade-indicator-dot grade-poor";
       }
