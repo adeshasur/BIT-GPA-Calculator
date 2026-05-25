@@ -572,6 +572,25 @@ select:disabled {
   line-height: 1.55;
 }
 
+.site-footer {
+  width: min(100% - 28px, 1100px);
+  margin: 0 auto 24px;
+  padding: 12px 16px 0;
+  color: #6b7a90;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.site-footer p {
+  margin: 2px 0;
+}
+
+.site-footer p:last-child {
+  color: var(--blue);
+  font-weight: 850;
+}
+
 @media (max-width: 900px) {
   .topbar,
   .summary-grid,
