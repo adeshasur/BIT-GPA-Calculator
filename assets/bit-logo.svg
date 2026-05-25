@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 540" role="img" aria-labelledby="title desc">
+  <title id="title">BIT logo</title>
+  <desc id="desc">Blue oval BIT logo with white serif letters.</desc>
+  <defs>
+    <radialGradient id="ovalFill" cx="42%" cy="28%" r="72%">
+      <stop offset="0" stop-color="#493d9e"/>
+      <stop offset="0.58" stop-color="#372f85"/>
+      <stop offset="1" stop-color="#171342"/>
+    </radialGradient>
+    <linearGradient id="rim" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.18" stop-color="#cfcde8"/>
+      <stop offset="0.62" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#201c4d"/>
+    </linearGradient>
+    <filter id="ovalShadow" x="-12%" y="-12%" width="124%" height="126%">
+      <feDropShadow dx="8" dy="12" stdDeviation="8" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    <filter id="textShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="7" dy="5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+  <ellipse cx="380" cy="272" rx="324" ry="204" fill="url(#ovalFill)" stroke="url(#rim)" stroke-width="18" filter="url(#ovalShadow)"/>
+  <ellipse cx="371" cy="248" rx="292" ry="158" fill="none" stroke="#ffffff" stroke-opacity="0.22" stroke-width="8"/>
+  <text x="380" y="350" text-anchor="middle" fill="#ffffff" stroke="#d8d8d8" stroke-width="2" filter="url(#textShadow)" font-family="Georgia, 'Times New Roman', serif" font-size="196" font-weight="700" letter-spacing="16">BIT</text>
+</svg>

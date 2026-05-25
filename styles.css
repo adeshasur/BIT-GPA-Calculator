@@ -67,18 +67,11 @@ button {
   box-shadow: 0 22px 55px rgba(37, 99, 168, 0.12);
 }
 
-.home-card::before {
-  display: inline-grid;
-  place-items: center;
-  width: 58px;
-  height: 58px;
-  margin-bottom: 16px;
-  color: var(--blue);
-  background: var(--blue-soft);
-  border-radius: 18px;
-  content: "GPA";
-  font-size: 0.9rem;
-  font-weight: 900;
+.home-logo {
+  display: block;
+  width: min(210px, 72%);
+  height: auto;
+  margin: 0 auto 18px;
 }
 
 .home-card .eyebrow {
