@@ -81,6 +81,15 @@ button {
   font-weight: 900;
 }
 
+.home-card .eyebrow {
+  margin-bottom: 10px;
+  color: var(--muted);
+}
+
+.home-card h1 {
+  color: var(--blue);
+}
+
 .home-actions {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
