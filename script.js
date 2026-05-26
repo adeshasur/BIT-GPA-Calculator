@@ -37,7 +37,7 @@ const COURSES = [
   { level: 2, code: "IT4406", name: "Agile Software Development", semester: 4, credits: 4, gpaCredits: 4 },
   { level: 2, code: "IT4506", name: "Computer Networks", semester: 4, credits: 3, gpaCredits: 3 },
   { level: 3, code: "EN5106", name: "Fundamentals of Management & Entrepreneurship", semester: 5, credits: 2, gpaCredits: 0, enhancement: true },
-  { level: 3, code: "IT5106", name: "Software Development Project", semester: "5 & 6", credits: 8, gpaCredits: 8 },
+  { level: 3, code: "IT5106", name: "Software Development Project", semester: 6, credits: 8, gpaCredits: 8 },
   { level: 3, code: "IT5206", name: "Professional Practice", semester: 5, credits: 3, gpaCredits: 3 },
   { level: 3, code: "IT5306", name: "Principles of Information Security", semester: 5, credits: 3, gpaCredits: 3 },
   { level: 3, code: "IT5406", name: "Systems & Network Administration", semester: 5, credits: 3, gpaCredits: 3 },
@@ -148,31 +148,37 @@ function summarizeLevel(level) {
   const points = entered.reduce((total, course) => total + effectiveGpv(course) * course.gpaCredits, 0);
   const cCredits = entered.reduce((total, course) => total + (effectiveGpv(course) >= REPEAT_CAP ? course.gpaCredits : 0), 0);
   const eCount = gpaCourses.filter((course) => gradeState(course.code).first === "E").length;
+  const repeatCourses = gpaCourses.filter((course) => isRepeatAllowed(gradeState(course.code).first));
+  const repeatPending = repeatCourses.filter((course) => !gradeState(course.code).repeat).length;
   const enCourses = courses.filter((course) => course.enhancement);
+  const enPassedCount = enCourses.filter((course) => gradeState(course.code).passed).length;
   const enPassed = enCourses.every((course) => gradeState(course.code).passed);
   const gpa = credits > 0 ? points / credits : null;
   const complete = credits === totalCredits;
 
-  return { level, credits, totalCredits, cCredits, eCount, enPassed, gpa, complete };
+  return { level, credits, totalCredits, cCredits, eCount, repeatCount: repeatCourses.length, repeatPending, enPassedCount, enTotal: enCourses.length, enPassed, gpa, complete };
 }
 
 function statusFor(summary) {
   if (!summary.complete) {
-    return { type: "warn", text: "Pending" };
+    return { type: "warn", text: "Complete grades first" };
   }
   if (summary.eCount > 0) {
-    return { type: "bad", text: `${summary.eCount} E grade(s). Repeat needed.` };
+    return { type: "bad", text: "Repeat needed" };
+  }
+  if (summary.repeatPending > 0) {
+    return { type: "warn", text: "Repeat grade pending" };
   }
   if (!summary.enPassed) {
-    return { type: "bad", text: "EN module pass is pending." };
+    return { type: "bad", text: "EN pass pending" };
   }
   if (summary.gpa < 1.5) {
-    return { type: "bad", text: "GPA is below 1.50 progression threshold." };
+    return { type: "bad", text: "GPA too low" };
   }
   if (summary.cCredits < 20) {
-    return { type: "bad", text: "Less than 20 credits are C or above." };
+    return { type: "bad", text: "C credits low" };
   }
-  return { type: "ok", text: "Progression criteria look okay." };
+  return { type: "ok", text: "Good to continue" };
 }
 
 function formatGpa(value) {
@@ -280,6 +286,8 @@ function renderCourses() {
   courseArea.innerHTML = "";
   visibleLevels().forEach((level) => {
     const summary = summarizeLevel(level);
+    const status = statusFor(summary);
+    const progress = Math.round((summary.credits / summary.totalCredits) * 100);
     const panel = document.createElement("section");
     panel.className = "level-panel";
     panel.innerHTML = `
@@ -296,7 +304,15 @@ function renderCourses() {
           <span>Level ${level} Result</span>
           <strong>${formatGpa(summary.gpa)}</strong>
           <small>${summary.credits} / ${summary.totalCredits} credits entered</small>
-          <em class="status ${statusFor(summary).type}">${statusFor(summary).text}</em>
+          <div class="result-progress" aria-label="${progress}% credits entered">
+            <i style="width: ${progress}%"></i>
+          </div>
+          <div class="result-stats">
+            <p><b>${summary.cCredits}</b><span>C or above</span></p>
+            <p><b>${summary.repeatCount}</b><span>Repeats</span></p>
+            <p><b>${summary.enPassedCount}/${summary.enTotal}</b><span>EN passed</span></p>
+          </div>
+          <em class="status ${status.type}">${status.text}</em>
         </aside>
       `}
     `;
@@ -324,6 +340,7 @@ function renderCourses() {
 function render() {
   const app = document.querySelector(".app");
   app.dataset.view = state.activeLevel;
+  document.body.dataset.view = state.activeLevel;
   document.querySelectorAll(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.level === state.activeLevel));
   if (state.activeLevel === "all") {
     pageTitle.textContent = "Overall GPA";
