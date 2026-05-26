@@ -60,6 +60,8 @@ const summaryGrid = document.querySelector("#summaryGrid");
 const courseArea = document.querySelector("#courseArea");
 const overallGpa = document.querySelector("#overallGpa");
 const overallCredits = document.querySelector("#overallCredits");
+const pageTitle = document.querySelector("#pageTitle");
+const pageLead = document.querySelector("#pageLead");
 
 document.querySelectorAll(".tab").forEach((button) => {
   button.addEventListener("click", () => {
@@ -155,7 +157,7 @@ function summarizeLevel(level) {
 
 function statusFor(summary) {
   if (!summary.complete) {
-    return { type: "warn", text: "Enter all GPA grades to check level status." };
+    return { type: "warn", text: "Pending" };
   }
   if (summary.eCount > 0) {
     return { type: "bad", text: `${summary.eCount} E grade(s). Repeat needed.` };
@@ -184,7 +186,7 @@ function renderSummary() {
       <article class="summary-card">
         <span>Level ${summary.level}</span>
         <strong>${formatGpa(summary.gpa)}</strong>
-        <small>${summary.credits} / ${summary.totalCredits} credits · ${summary.cCredits} credits C or above</small>
+        <small>${summary.credits} / ${summary.totalCredits} credits</small>
         <em class="status ${status.type}">${status.text}</em>
       </article>
     `;
@@ -197,9 +199,10 @@ function renderSummary() {
   overallCredits.textContent = `${credits} / 90 credits`;
 }
 
-function makeGradeSelect(course, key, disabled = false) {
+function makeGradeSelect(course, key, disabled = false, placeholder = "Grade") {
   const select = document.createElement("select");
   select.innerHTML = gradeTemplate.innerHTML;
+  select.options[0].textContent = placeholder;
   select.value = gradeState(course.code)[key] || "";
   select.disabled = disabled;
   select.addEventListener("change", () => {
@@ -224,15 +227,13 @@ function renderCourse(course) {
   card.innerHTML = `
     <div class="course-title">
       <div>
-        <span class="course-code">${course.code}</span>
         <h3>${course.name}</h3>
       </div>
       <span class="badge ${course.enhancement ? "en" : ""}">${course.enhancement ? "EN" : `${course.gpaCredits} credits`}</span>
     </div>
-    <span class="course-meta">Semester ${course.semester} · ${course.credits} total credits</span>
     <div class="grade-row"></div>
     <div class="card-footer">
-      <span>${course.enhancement ? "Pass status" : "Effective GPV"}</span>
+      <span>${course.enhancement ? "Status" : "GPV"}</span>
       <strong class="gpv">${course.enhancement ? (grades.passed ? "PASS" : "--") : formatGpa(gpv)}</strong>
     </div>
   `;
@@ -242,7 +243,7 @@ function renderCourse(course) {
   if (course.enhancement) {
     const label = document.createElement("label");
     label.className = "pass-label";
-    label.innerHTML = `<input type="checkbox" ${grades.passed ? "checked" : ""}> Passed`;
+    label.innerHTML = `<input type="checkbox" ${grades.passed ? "checked" : ""}> Pass`;
     label.querySelector("input").addEventListener("change", (event) => {
       gradeState(course.code).passed = event.target.checked;
       saveGrades();
@@ -254,20 +255,21 @@ function renderCourse(course) {
 
   const first = document.createElement("div");
   first.className = "grade-field";
-  first.innerHTML = "<label>Grade</label>";
-  first.append(makeGradeSelect(course, "first"));
+  first.append(makeGradeSelect(course, "first", false, "Select Grade"));
 
-  const repeat = document.createElement("div");
-  repeat.className = "grade-field";
-  repeat.innerHTML = "<label>Repeat</label>";
-  repeat.append(makeGradeSelect(course, "repeat", !repeatAllowed));
+  row.append(first);
 
-  row.append(first, repeat);
+  if (repeatAllowed) {
+    const repeat = document.createElement("div");
+    repeat.className = "grade-field";
+    repeat.append(makeGradeSelect(course, "repeat", false, "Repeat Grade"));
+    row.append(repeat);
 
-  const hint = document.createElement("span");
-  hint.className = `hint ${repeatAllowed ? "bad" : ""}`;
-  hint.textContent = repeatAllowed ? "Repeat is capped at C / 2.00." : grades.first ? "C or above is final." : "Repeat opens for C-, D+, D or E.";
-  card.insertBefore(hint, card.querySelector(".card-footer"));
+    const hint = document.createElement("span");
+    hint.className = "hint bad";
+    hint.textContent = "Repeat capped at C.";
+    card.insertBefore(hint, card.querySelector(".card-footer"));
+  }
 
   return card;
 }
@@ -282,12 +284,12 @@ function renderCourses() {
       <header class="level-header">
         <div>
           <h2>Level ${level}</h2>
-          <p>${summary.credits} / ${summary.totalCredits} GPA credits entered</p>
+          <p>${summary.credits} / ${summary.totalCredits} credits</p>
         </div>
         <span class="level-gpa">GPA ${formatGpa(summary.gpa)}</span>
       </header>
       <div class="${state.activeLevel === "all" ? "course-grid" : "semester-grid"}"></div>
-      ${state.activeLevel === "all" ? "" : `<div class="year-result"><span>Your Level ${level} GPA</span><strong>${formatGpa(summary.gpa)}</strong></div>`}
+      ${state.activeLevel === "all" ? "" : `<div class="year-result"><span>Level ${level} GPA</span><strong>${formatGpa(summary.gpa)}</strong></div>`}
     `;
 
     const grid = panel.querySelector(".course-grid");
@@ -311,8 +313,16 @@ function renderCourses() {
 }
 
 function render() {
-  document.querySelector(".app").dataset.view = state.activeLevel;
+  const app = document.querySelector(".app");
+  app.dataset.view = state.activeLevel;
   document.querySelectorAll(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.level === state.activeLevel));
+  if (state.activeLevel === "all") {
+    pageTitle.textContent = "Overall GPA";
+    pageLead.textContent = "Fill any level. Your overall GPA updates instantly.";
+  } else if (state.activeLevel !== "home") {
+    pageTitle.textContent = `Year ${state.activeLevel} GPA Calculation`;
+    pageLead.textContent = "Select grades for each subject.";
+  }
   renderSummary();
   renderCourses();
 }
