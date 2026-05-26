@@ -62,6 +62,7 @@ const overallGpa = document.querySelector("#overallGpa");
 const overallCredits = document.querySelector("#overallCredits");
 const pageTitle = document.querySelector("#pageTitle");
 const pageLead = document.querySelector("#pageLead");
+const levelScore = document.querySelector("#levelScore");
 
 document.querySelectorAll(".tab").forEach((button) => {
   button.addEventListener("click", () => {
@@ -227,6 +228,7 @@ function renderCourse(course) {
   card.innerHTML = `
     <div class="course-title">
       <div>
+        <span class="course-code">${course.code}</span>
         <h3>${course.name}</h3>
       </div>
       <span class="badge ${course.enhancement ? "en" : ""}">${course.enhancement ? "EN" : `${course.gpaCredits} credits`}</span>
@@ -289,7 +291,14 @@ function renderCourses() {
         <span class="level-gpa">GPA ${formatGpa(summary.gpa)}</span>
       </header>
       <div class="${state.activeLevel === "all" ? "course-grid" : "semester-grid"}"></div>
-      ${state.activeLevel === "all" ? "" : `<div class="year-result"><span>Level ${level} GPA</span><strong>${formatGpa(summary.gpa)}</strong></div>`}
+      ${state.activeLevel === "all" ? "" : `
+        <aside class="result-panel">
+          <span>Level ${level} Result</span>
+          <strong>${formatGpa(summary.gpa)}</strong>
+          <small>${summary.credits} / ${summary.totalCredits} credits entered</small>
+          <em class="status ${statusFor(summary).type}">${statusFor(summary).text}</em>
+        </aside>
+      `}
     `;
 
     const grid = panel.querySelector(".course-grid");
@@ -319,9 +328,14 @@ function render() {
   if (state.activeLevel === "all") {
     pageTitle.textContent = "Overall GPA";
     pageLead.textContent = "Fill any level. Your overall GPA updates instantly.";
+    levelScore.textContent = "";
   } else if (state.activeLevel !== "home") {
-    pageTitle.textContent = `Year ${state.activeLevel} GPA Calculation`;
+    const summary = summarizeLevel(Number(state.activeLevel));
+    pageTitle.textContent = `Year ${state.activeLevel} GPA`;
     pageLead.textContent = "Select grades for each subject.";
+    levelScore.innerHTML = `<span>Level ${state.activeLevel} GPA</span><strong>${formatGpa(summary.gpa)}</strong>`;
+  } else {
+    levelScore.textContent = "";
   }
   renderSummary();
   renderCourses();
