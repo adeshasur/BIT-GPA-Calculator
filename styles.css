@@ -21,24 +21,25 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 1px 1px, rgba(37, 99, 168, 0.12) 1px, transparent 0),
-    linear-gradient(135deg, rgba(37, 99, 168, 0.08), transparent 34%),
-    linear-gradient(315deg, rgba(22, 132, 91, 0.08), transparent 38%),
+    radial-gradient(circle at 1px 1px, rgba(6, 29, 69, 0.055) 1px, transparent 0),
+    radial-gradient(circle at 50% 44%, rgba(6, 29, 69, 0.09), transparent 24rem),
+    linear-gradient(135deg, rgba(37, 99, 168, 0.055), transparent 34%),
+    linear-gradient(315deg, rgba(22, 132, 91, 0.07), transparent 38%),
     var(--bg);
-  background-size: 24px 24px, auto, auto, auto;
-  background-position: 0 0, center, center, center;
+  background-size: 30px 30px, auto, auto, auto, auto;
+  background-position: 0 0, center, center, center, center;
   color: var(--text);
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  animation: textureDrift 28s linear infinite;
+  animation: textureDrift 36s linear infinite;
 }
 
 @keyframes textureDrift {
   from {
-    background-position: 0 0, center, center, center;
+    background-position: 0 0, center, center, center, center;
   }
 
   to {
-    background-position: 48px 48px, center, center, center;
+    background-position: 60px 60px, center, center, center, center;
   }
 }
 
@@ -53,6 +54,11 @@ button {
   cursor: pointer;
 }
 
+button:focus-visible {
+  outline: 3px solid rgba(6, 29, 69, 0.18);
+  outline-offset: 3px;
+}
+
 .app {
   width: min(1100px, calc(100% - 24px));
   margin: 0 auto;
@@ -61,7 +67,7 @@ button {
 
 .app[data-view="home"] {
   min-height: calc(100svh - 56px);
-  padding: 10px 0 8px;
+  padding: 6px 0 8px;
   display: grid;
   align-items: center;
 }
@@ -83,8 +89,8 @@ button {
   position: relative;
   overflow: hidden;
   width: min(470px, 100%);
-  min-height: min(680px, calc(100svh - 92px));
-  padding: clamp(40px, 7vw, 58px) clamp(22px, 4vw, 30px);
+  min-height: min(650px, calc(100svh - 96px));
+  padding: clamp(36px, 6vw, 50px) clamp(22px, 4vw, 30px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -93,7 +99,8 @@ button {
   border: 1px solid rgba(37, 99, 168, 0.16);
   border-radius: 28px;
   box-shadow:
-    0 28px 70px rgba(37, 99, 168, 0.16),
+    0 34px 88px rgba(6, 29, 69, 0.15),
+    0 16px 36px rgba(37, 99, 168, 0.08),
     0 2px 0 rgba(255, 255, 255, 0.9) inset;
 }
 
@@ -104,21 +111,17 @@ button {
 
 .home-logo {
   display: block;
-  width: min(150px, 52%);
+  width: min(144px, 50%);
   height: auto;
-  margin: 0 auto 22px;
-  padding: 6px;
-  background: #ffffff;
-  border: 1px solid #dce9f8;
-  border-radius: 24px;
-  box-shadow:
-    0 18px 34px rgba(7, 28, 64, 0.2),
-    0 0 0 8px rgba(237, 244, 255, 0.95);
+  margin: 0 auto 20px;
+  border-radius: 18px;
+  box-shadow: 0 16px 32px rgba(7, 28, 64, 0.2);
 }
 
 .home-card .eyebrow {
-  margin-bottom: 12px;
+  margin-bottom: 11px;
   color: var(--muted);
+  font-size: 0.72rem;
 }
 
 .home-card h1 {
@@ -129,31 +132,11 @@ button {
 }
 
 .home-card .lead {
-  max-width: 390px;
+  max-width: 380px;
   margin-right: auto;
   margin-left: auto;
   font-size: 0.95rem;
-}
-
-.home-highlights {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 20px;
-}
-
-.home-highlights span {
-  display: grid;
-  place-items: center;
-  min-height: 34px;
-  padding: 0 8px;
-  color: #295176;
-  background: rgba(237, 244, 255, 0.82);
-  border: 1px solid #dbe9f8;
-  border-radius: 999px;
-  font-size: 0.73rem;
-  font-weight: 850;
-  white-space: nowrap;
+  color: #4a5d75;
 }
 
 .home-actions {
@@ -167,7 +150,7 @@ button {
 .secondary-action {
   min-height: 50px;
   color: #fff;
-  background: var(--blue);
+  background: linear-gradient(180deg, #0a2a60, var(--blue));
   border: 0;
   border-radius: 14px;
   font-weight: 850;
@@ -177,11 +160,29 @@ button {
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
 
+.home-actions .primary-year {
+  background: linear-gradient(180deg, #164c9a, #0a2a60);
+  box-shadow:
+    0 14px 28px rgba(22, 76, 154, 0.28),
+    0 1px 0 rgba(255, 255, 255, 0.26) inset;
+}
+
 .home-actions button:hover,
-.secondary-action:hover,
+.secondary-action:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 16px 28px rgba(6, 29, 69, 0.22),
+    0 1px 0 rgba(255, 255, 255, 0.28) inset;
+}
+
 .reset-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(37, 99, 168, 0.2);
+  box-shadow: 0 10px 22px rgba(37, 99, 168, 0.18);
+}
+
+.home-actions button:active,
+.secondary-action:active {
+  transform: translateY(0);
 }
 
 .secondary-action {
@@ -652,8 +653,8 @@ select:disabled {
   width: min(100% - 28px, 1100px);
   margin: 0 auto 12px;
   padding: 4px 16px 0;
-  color: #6b7a90;
-  font-size: 0.78rem;
+  color: rgba(74, 93, 117, 0.72);
+  font-size: 0.76rem;
   line-height: 1.5;
   text-align: center;
 }
@@ -663,7 +664,7 @@ select:disabled {
 }
 
 .site-footer p:last-child {
-  color: var(--blue);
+  color: rgba(6, 29, 69, 0.86);
   font-weight: 850;
 }
 
@@ -695,10 +696,6 @@ select:disabled {
   }
 
   .home-actions {
-    grid-template-columns: 1fr;
-  }
-
-  .home-highlights {
     grid-template-columns: 1fr;
   }
 
